@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { getCurrentUser } from "@/lib/session";
+import LogoutButton from "./LogoutButton";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const user = await getCurrentUser();
+
   return (
     <header className="sticky top-0 z-50 border-b border-ink bg-paper/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3">
@@ -14,7 +18,16 @@ export default function Navbar() {
         </form>
         <nav className="ml-auto flex items-center gap-4 text-sm">
           <Link href="/kategoriler" className="hidden text-steel hover:text-ink sm:inline">Kategoriler</Link>
-          <Link href="/giris" className="border border-ink px-3 py-1.5 font-medium hover:bg-ink hover:text-paper transition-colors focus-ring">Giriş yap</Link>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <span className="hidden font-mono text-xs text-steel sm:inline">{user.displayName}</span>
+              <LogoutButton />
+            </div>
+          ) : (
+            <Link href="/giris" className="border border-ink px-3 py-1.5 font-medium hover:bg-ink hover:text-paper transition-colors focus-ring">
+              Giriş yap
+            </Link>
+          )}
         </nav>
       </div>
     </header>

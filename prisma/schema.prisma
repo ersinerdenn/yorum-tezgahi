@@ -9,32 +9,23 @@ datasource db {
 
 model User {
   id          String   @id @default(cuid())
-  phoneHash   String   @unique
+  emailHash   String   @unique
   displayName String
   createdAt   DateTime @default(now())
 
   reviews  Review[]
-  sessions Session[]
   otpCodes OtpCode[]
 }
 
 model OtpCode {
   id        String   @id @default(cuid())
-  phoneHash String
+  emailHash String
   codeHash  String
   expiresAt DateTime
   consumed  Boolean  @default(false)
   createdAt DateTime @default(now())
   userId    String?
   user      User?    @relation(fields: [userId], references: [id])
-}
-
-model Session {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  expiresAt DateTime
-  createdAt DateTime @default(now())
 }
 
 model Category {

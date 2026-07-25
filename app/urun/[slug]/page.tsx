@@ -1,21 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/session";
 import RatingTag from "../../components/RatingTag";
+import ReviewForm from "./ReviewForm";
 
 export const revalidate = 0;
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await prisma.product.findUnique({
-    where: { slug: params.slug },
-    include: {
-      subcategory: true,
-      reviews: {
-        include: { user: true, metricScores: true },
-        orderBy: { createdAt: "desc" },
+  const [product, user] = await Promise.all([
+    prisma.product.findUnique({
+      where: { slug: params.slug },
+      include: {
+        subcategory: true,
+        reviews: {
+          include: { user: true, metricScores: true },
+          orderBy: { createdAt: "desc" },
+        },
       },
-    },
-  });
+    }),
+    getCurrentUser(),
+  ]);
 
   if (!product) notFound();
 
@@ -45,11 +50,15 @@ export default async function ProductPage({ params }: { params: { slug: string }
       </div>
 
       <section className="border-b border-ink py-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-display text-xl font-bold">Yorumlar</h2>
-          <Link href="/giris" className="border border-ink px-4 py-2 text-sm font-medium hover:bg-ink hover:text-paper transition-colors focus-ring">
-            Yorum yaz
-          </Link>
+          {user ? (
+            <ReviewForm productSlug={product.slug} metricSchema={metricSchema} />
+          ) : (
+            <Link href="/giris" className="border border-ink px-4 py-2 text-sm font-medium hover:bg-ink hover:text-paper transition-colors focus-ring">
+              Yorum yazmak için giriş yap
+            </Link>
+          )}
         </div>
 
         {reviewCount === 0 ? (

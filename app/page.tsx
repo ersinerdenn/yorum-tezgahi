@@ -9,9 +9,7 @@ export default async function HomePage() {
     include: { _count: { select: { products: true } } },
   });
 
-  const products = await prisma.product.findMany({
-    include: { reviews: true },
-  });
+  const products = await prisma.product.findMany({ include: { reviews: true } });
 
   const featured = products
     .map((p) => {
@@ -43,9 +41,7 @@ export default async function HomePage() {
       </section>
 
       <section className="py-12">
-        <div className="mb-5 flex items-baseline justify-between">
-          <h2 className="font-display text-xl font-bold">Kategoriler</h2>
-        </div>
+        <h2 className="mb-5 font-display text-xl font-bold">Kategoriler</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {subcategories.map((c) => (
             <Link key={c.slug} href={`/kategori/${c.slug}`} className="group border border-ink bg-white p-4 transition-colors hover:bg-ink hover:text-paper focus-ring">
@@ -57,13 +53,9 @@ export default async function HomePage() {
       </section>
 
       <section className="py-12">
-        <div className="mb-5 flex items-baseline justify-between">
-          <h2 className="font-display text-xl font-bold">En çok yorumlananlar</h2>
-        </div>
+        <h2 className="mb-5 font-display text-xl font-bold">En çok yorumlananlar</h2>
         {featured.length === 0 ? (
-          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">
-            Henüz ürün eklenmedi.
-          </p>
+          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">Henüz ürün eklenmedi.</p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
@@ -76,9 +68,7 @@ export default async function HomePage() {
                   <span className="font-mono text-xs text-steel">{p.reviewCount} yorum</span>
                 </div>
                 {p.verified && (
-                  <p className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-teal">
-                    ● Doğrulanmış alışverişler mevcut
-                  </p>
+                  <p className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-teal">● Doğrulanmış alışverişler mevcut</p>
                 )}
               </Link>
             ))}
