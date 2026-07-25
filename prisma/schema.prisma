@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  phoneHash   String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+
+  reviews  Review[]
+  sessions Session[]
+  otpCodes OtpCode[]
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  phoneHash String
+  codeHash  String
+  expiresAt DateTime
+  consumed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  name          String
+  subcategories Subcategory[]
+}
+
+model Subcategory {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  name         String
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  metricSchema String
+  products     Product[]
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  brand         String
+  model         String
+  subcategoryId String
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  imageUrl      String?
+  createdAt     DateTime    @default(now())
+
+  reviews Review[]
+}
+
+model Review {
+  id               String   @id @default(cuid())
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id])
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  overallRating    Int
+  title            String
+  body             String
+  usageDuration    String?
+  verifiedPurchase Boolean  @default(false)
+  helpfulCount     Int      @default(0)
+  createdAt        DateTime @default(now())
+
+  metricScores ReviewMetricScore[]
+}
+
+model ReviewMetricScore {
+  id       String @id @default(cuid())
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id])
+  key      String
+  score    Int
+}
