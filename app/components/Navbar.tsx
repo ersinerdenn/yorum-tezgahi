@@ -17,6 +17,7 @@ export default async function Navbar() {
         </form>
         <nav className="ml-auto flex items-center gap-4 text-sm">
           <Link href="/kategoriler" className="hidden text-steel hover:text-ink sm:inline">Kategoriler</Link>
+          <Link href="/urun-ekle" className="hidden text-steel hover:text-ink sm:inline">Ürün ekle</Link>
           {user ? (
             <div className="flex items-center gap-3">
               <span className="hidden font-mono text-xs text-steel sm:inline">{user.displayName}</span>

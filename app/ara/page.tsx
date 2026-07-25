@@ -59,10 +59,12 @@ export default async function AramaPage({
             Marka veya model adı yazıp aramayı dene.
           </p>
         ) : results.length === 0 ? (
-          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">
-            "{query}" ile eşleşen bir ürün bulamadık. Farklı bir kelimeyle dene, ya da yakında ürün ekleme
-            özelliğiyle bu ürünü sen ekleyebileceksin.
-          </p>
+          <div className="border border-dashed border-line bg-white p-6 text-sm text-steel">
+            <p>"{query}" ile eşleşen bir ürün bulamadık.</p>
+            <Link href="/urun-ekle" className="mt-3 inline-block border border-ink px-4 py-2 text-sm font-medium text-ink hover:bg-ink hover:text-paper transition-colors focus-ring">
+              Bu ürünü sen ekle
+            </Link>
+          </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((p) => (

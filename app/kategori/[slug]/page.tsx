@@ -23,7 +23,12 @@ export default async function CategoryPage({ params }: { params: { slug: string 
       </div>
       <section className="py-10">
         {products.length === 0 ? (
-          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">Bu kategoride henüz ürün yok.</p>
+          <div className="border border-dashed border-line bg-white p-6 text-sm text-steel">
+            <p>Bu kategoride henüz ürün yok.</p>
+            <Link href={`/urun-ekle?kategori=${subcategory.slug}`} className="mt-3 inline-block border border-ink px-4 py-2 text-sm font-medium text-ink hover:bg-ink hover:text-paper transition-colors focus-ring">
+              İlk ürünü sen ekle
+            </Link>
+          </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((p) => (
