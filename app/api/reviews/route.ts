@@ -14,22 +14,16 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user) {
-    return NextResponse.json({ error: "Yorum yazmak için giriş yapmalısın." }, { status: 401 });
-  }
+  if (!user) return NextResponse.json({ error: "Yorum yazmak için giriş yapmalısın." }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Form bilgileri eksik veya hatalı." }, { status: 400 });
-  }
+  if (!parsed.success) return NextResponse.json({ error: "Form bilgileri eksik veya hatalı." }, { status: 400 });
 
   const { productSlug, overallRating, title, body: reviewBody, usageDuration, metricScores } = parsed.data;
 
   const product = await prisma.product.findUnique({ where: { slug: productSlug } });
-  if (!product) {
-    return NextResponse.json({ error: "Ürün bulunamadı." }, { status: 404 });
-  }
+  if (!product) return NextResponse.json({ error: "Ürün bulunamadı." }, { status: 404 });
 
   const review = await prisma.review.create({
     data: {
@@ -39,9 +33,7 @@ export async function POST(req: NextRequest) {
       title,
       body: reviewBody,
       usageDuration,
-      metricScores: metricScores
-        ? { create: Object.entries(metricScores).map(([key, score]) => ({ key, score })) }
-        : undefined,
+      metricScores: metricScores ? { create: Object.entries(metricScores).map(([key, score]) => ({ key, score })) } : undefined,
     },
   });
 

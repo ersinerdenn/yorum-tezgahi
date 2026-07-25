@@ -13,10 +13,7 @@ const schema = z.object({
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
-
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Geçersiz bilgi." }, { status: 400 });
-  }
+  if (!parsed.success) return NextResponse.json({ error: "Geçersiz bilgi." }, { status: 400 });
 
   const { email, code, displayName } = parsed.data;
   const emailHash = hashEmail(email);
@@ -25,36 +22,20 @@ export async function POST(req: NextRequest) {
     where: { emailHash, consumed: false, expiresAt: { gt: new Date() } },
     orderBy: { createdAt: "desc" },
   });
-
-  if (!otp) {
-    return NextResponse.json({ error: "Kod süresi dolmuş, yeniden kod iste." }, { status: 400 });
-  }
+  if (!otp) return NextResponse.json({ error: "Kod süresi dolmuş, yeniden kod iste." }, { status: 400 });
 
   const valid = await compareCode(code, otp.codeHash);
-  if (!valid) {
-    return NextResponse.json({ error: "Kod yanlış." }, { status: 400 });
-  }
+  if (!valid) return NextResponse.json({ error: "Kod yanlış." }, { status: 400 });
 
   await prisma.otpCode.update({ where: { id: otp.id }, data: { consumed: true } });
 
   let user = await prisma.user.findUnique({ where: { emailHash } });
   if (!user) {
-    user = await prisma.user.create({
-      data: {
-        emailHash,
-        displayName: displayName?.trim() || email.split("@")[0],
-      },
-    });
+    user = await prisma.user.create({ data: { emailHash, displayName: displayName?.trim() || email.split("@")[0] } });
   }
 
   const token = await createSessionToken(user.id);
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30,
-  });
+  res.cookies.set(SESSION_COOKIE, token, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
   return res;
 }

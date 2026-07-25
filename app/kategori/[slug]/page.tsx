@@ -6,11 +6,7 @@ import RatingTag from "../../components/RatingTag";
 export const revalidate = 0;
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const subcategory = await prisma.subcategory.findUnique({
-    where: { slug: params.slug },
-    include: { products: { include: { reviews: true } } },
-  });
-
+  const subcategory = await prisma.subcategory.findUnique({ where: { slug: params.slug }, include: { products: { include: { reviews: true } } } });
   if (!subcategory) notFound();
 
   const products = subcategory.products.map((p) => {
