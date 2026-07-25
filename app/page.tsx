@@ -5,7 +5,9 @@ import RatingTag from "./components/RatingTag";
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const subcategories = await prisma.subcategory.findMany({ include: { _count: { select: { products: true } } } });
+  const categories = await prisma.category.findMany({
+    include: { subcategories: { include: { _count: { select: { products: true } } } } },
+  });
   const products = await prisma.product.findMany({ include: { reviews: true } });
 
   const featured = products
@@ -33,13 +35,20 @@ export default async function HomePage() {
       </section>
 
       <section className="py-12">
-        <h2 className="mb-5 font-display text-xl font-bold">Kategoriler</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {subcategories.map((c) => (
-            <Link key={c.slug} href={`/kategori/${c.slug}`} className="group border border-ink bg-white p-4 transition-colors hover:bg-ink hover:text-paper focus-ring">
-              <p className="font-display font-semibold">{c.name}</p>
-              <p className="mt-1 font-mono text-xs text-steel group-hover:text-steelLight">{c._count.products} ürün</p>
-            </Link>
+        <h2 className="mb-6 font-display text-xl font-bold">Kategoriler</h2>
+        <div className="space-y-8">
+          {categories.map((cat) => (
+            <div key={cat.slug}>
+              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-steel">{cat.name}</p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                {cat.subcategories.map((c) => (
+                  <Link key={c.slug} href={`/kategori/${c.slug}`} className="group border border-ink bg-white p-4 transition-colors hover:bg-ink hover:text-paper focus-ring">
+                    <p className="font-display font-semibold">{c.name}</p>
+                    <p className="mt-1 font-mono text-xs text-steel group-hover:text-steelLight">{c._count.products} ürün</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>

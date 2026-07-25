@@ -3,8 +3,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Yorum Tezgahı — Teknoloji ürünleri gerçek kullanıcı yorumları",
-  description: "Satın almadan önce tezgaha yatır: doğrulanmış kullanıcılardan gerçek teknoloji ürünü deneyimleri.",
+  title: "Yorum Tezgahı — Gerçek kullanıcılardan gerçek deneyimler",
+  description: "Satın almadan önce tezgaha yatır: doğrulanmış kullanıcılardan ürün ve deneyim yorumları.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
