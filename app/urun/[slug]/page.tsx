@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import RatingTag from "../../components/RatingTag";
 import ReviewForm from "./ReviewForm";
+import ReviewItem from "./ReviewItem";
 
 export const revalidate = 0;
 
@@ -47,33 +48,12 @@ export default async function ProductPage({ params }: { params: { slug: string }
         ) : (
           <div className="mt-6 space-y-4">
             {product.reviews.map((r) => (
-              <article key={r.id} className="rounded-2xl border border-line bg-white p-5 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-3">
-                    <RatingTag score={r.overallRating} size="sm" />
-                    <h3 className="font-semibold text-ink">{r.title}</h3>
-                  </div>
-                  {r.verifiedPurchase && <span className="text-xs font-medium text-teal">● Doğrulanmış Alışveriş</span>}
-                </div>
-                <p className="mt-3 text-sm leading-relaxed text-ink">{r.body}</p>
-                {r.receiptUrl && (
-                  <a href={r.receiptUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block">
-                    <img src={r.receiptUrl} alt="Fiş / fatura" className="h-20 w-20 rounded-lg border border-line object-cover hover:opacity-80 transition-opacity" />
-                  </a>
-                )}
-                {r.metricScores.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-4 border-t border-line pt-4">
-                    {r.metricScores.map((m) => {
-                      const label = metricSchema.find((ms) => ms.key === m.key)?.label ?? m.key;
-                      return <span key={m.id} className="text-xs text-steel">{label}: <span className="font-semibold text-ink">{m.score}/5</span></span>;
-                    })}
-                  </div>
-                )}
-                <div className="mt-4 flex items-center justify-between border-t border-line pt-3 text-xs text-steelLight">
-                  <span>{r.user.displayName}{r.usageDuration ? ` — ${r.usageDuration}` : ""}</span>
-                  <span>{new Date(r.createdAt).toLocaleDateString("tr-TR")}</span>
-                </div>
-              </article>
+              <ReviewItem
+                key={r.id}
+                review={{ ...r, createdAt: r.createdAt.toISOString() }}
+                metricSchema={metricSchema}
+                isOwner={user?.id === r.userId}
+              />
             ))}
           </div>
         )}
