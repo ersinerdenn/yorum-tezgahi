@@ -69,6 +69,7 @@ model Review {
   body             String
   usageDuration    String?
   verifiedPurchase Boolean  @default(false)
+  receiptUrl       String?
   helpfulCount     Int      @default(0)
   createdAt        DateTime @default(now())
 

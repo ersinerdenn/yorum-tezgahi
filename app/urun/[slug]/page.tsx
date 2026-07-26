@@ -56,6 +56,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
                   {r.verifiedPurchase && <span className="text-xs font-medium text-teal">● Doğrulanmış Alışveriş</span>}
                 </div>
                 <p className="mt-3 text-sm leading-relaxed text-ink">{r.body}</p>
+                {r.receiptUrl && (
+                  <a href={r.receiptUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block">
+                    <img src={r.receiptUrl} alt="Fiş / fatura" className="h-20 w-20 rounded-lg border border-line object-cover hover:opacity-80 transition-opacity" />
+                  </a>
+                )}
                 {r.metricScores.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-4 border-t border-line pt-4">
                     {r.metricScores.map((m) => {

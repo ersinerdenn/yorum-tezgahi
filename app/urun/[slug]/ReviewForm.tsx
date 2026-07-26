@@ -12,19 +12,37 @@ export default function ReviewForm({ productSlug, metricSchema }: { productSlug:
   const [body, setBody] = useState("");
   const [usageDuration, setUsageDuration] = useState("");
   const [metricScores, setMetricScores] = useState<Record<string, number>>(Object.fromEntries(metricSchema.map((m) => [m.key, 5])));
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(""); setLoading(true);
+
+    let receiptUrl: string | undefined;
+
+    if (receiptFile) {
+      const fd = new FormData();
+      fd.append("file", receiptFile);
+      const uploadRes = await fetch("/api/upload-receipt", { method: "POST", body: fd });
+      if (!uploadRes.ok) {
+        const data = await uploadRes.json().catch(() => ({}));
+        setLoading(false);
+        setError(data.error || "Fiş yüklenemedi.");
+        return;
+      }
+      const uploadData = await uploadRes.json();
+      receiptUrl = uploadData.url;
+    }
+
     const res = await fetch("/api/reviews", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productSlug, overallRating, title, body, usageDuration: usageDuration || undefined, metricScores }),
+      body: JSON.stringify({ productSlug, overallRating, title, body, usageDuration: usageDuration || undefined, metricScores, receiptUrl }),
     });
     setLoading(false);
     if (!res.ok) { const data = await res.json().catch(() => ({})); setError(data.error || "Yorum gönderilemedi."); return; }
-    setOpen(false); setTitle(""); setBody(""); setUsageDuration("");
+    setOpen(false); setTitle(""); setBody(""); setUsageDuration(""); setReceiptFile(null);
     router.refresh();
   }
 
@@ -72,6 +90,18 @@ export default function ReviewForm({ productSlug, metricSchema }: { productSlug:
         </div>
       )}
       {error && <p className="text-sm text-rust">{error}</p>}
+      <div className="rounded-lg border border-dashed border-line bg-[#FAFAF9] p-4">
+        <label className="text-xs font-semibold uppercase tracking-wide text-steel">
+          Fiş / fatura fotoğrafı <span className="text-steelLight normal-case">(isteğe bağlı, "Doğrulanmış Alışveriş" rozeti kazandırır)</span>
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setReceiptFile(e.target.files?.[0] ?? null)}
+          className="mt-2 block w-full text-sm text-steel file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white"
+        />
+        {receiptFile && <p className="mt-2 text-xs text-teal">✓ {receiptFile.name} seçildi</p>}
+      </div>
       <div className="flex gap-3">
         <button type="submit" disabled={loading} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel disabled:opacity-50">{loading ? "Gönderiliyor…" : "Yorumu paylaş"}</button>
         <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 text-sm text-steel hover:text-ink">Vazgeç</button>
