@@ -3,26 +3,22 @@
 @tailwind utilities;
 
 body {
-  background-color: #EEF0EF;
-  color: #1B1E23;
-  background-image: linear-gradient(to right, #DEE1DA 1px, transparent 1px),
-    linear-gradient(to bottom, #DEE1DA 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-color: #FAFAF9;
+  color: #18181B;
 }
-.inspection-tag {
-  position: relative; background: #1B1E23; color: #EEF0EF;
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
-  padding-right: 22px;
+
+.rating-pill {
+  background: #FEF3E2;
+  color: #D97706;
+  border-radius: 9999px;
+  font-weight: 700;
 }
-.inspection-tag::before {
-  content: ""; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  width: 5px; height: 5px; border-radius: 9999px; background: #EEF0EF;
+
+.focus-ring:focus-visible {
+  outline: 2px solid #D97706;
+  outline-offset: 2px;
 }
-.tear-line {
-  background-image: linear-gradient(to right, #8993A1 50%, transparent 50%);
-  background-size: 8px 1px; background-repeat: repeat-x; height: 1px;
-}
-.focus-ring:focus-visible { outline: 2px solid #E8A23D; outline-offset: 2px; }
+
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }

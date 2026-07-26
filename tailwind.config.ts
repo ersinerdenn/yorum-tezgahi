@@ -4,14 +4,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#EEF0EF", ink: "#1B1E23", steel: "#3D4552",
-        steelLight: "#8993A1", amber: "#E8A23D", teal: "#2F8F82",
-        rust: "#C1512F", line: "#D6D9D3",
+        paper: "#FAFAF9",
+        ink: "#18181B",
+        steel: "#71717A",
+        steelLight: "#A1A1AA",
+        amber: "#D97706",
+        amberSoft: "#FEF3E2",
+        teal: "#059669",
+        rust: "#DC2626",
+        line: "#E7E5E4",
       },
       fontFamily: {
-        display: ["Space Grotesk", "sans-serif"],
+        display: ["Inter", "sans-serif"],
         body: ["Inter", "sans-serif"],
-        mono: ["IBM Plex Mono", "monospace"],
+        mono: ["Inter", "sans-serif"],
+      },
+      borderRadius: {
+        xl2: "1rem",
       },
     },
   },

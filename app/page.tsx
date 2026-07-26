@@ -21,30 +21,31 @@ export default async function HomePage() {
     .slice(0, 6);
 
   return (
-    <main className="mx-auto max-w-6xl px-5 pb-24">
-      <section className="border-b border-ink py-14 sm:py-20">
-        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-steel">Kayıt no. 000001 — Kuruluş 2026</p>
-        <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-          Satın almadan önce <span className="underline decoration-amber decoration-4 underline-offset-4">tezgaha yatır.</span>
+    <main className="mx-auto max-w-5xl px-6 pb-24">
+      <section className="pt-14 pb-10 sm:pt-20">
+        <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
+          Satın almadan önce <span className="text-amber">tezgaha yatır.</span>
         </h1>
-        <p className="mt-5 max-w-xl text-base text-steel sm:text-lg">Doğrulanmış alıcılardan gerçek kullanım deneyimleri. Reklam değil, sahte yorum değil — sadece kullananların anlattıkları.</p>
-        <form action="/ara" className="mt-8 flex max-w-lg border border-ink bg-white">
-          <input name="q" placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="w-full bg-transparent px-4 py-3 text-sm outline-none placeholder:text-steelLight" />
-          <button type="submit" className="shrink-0 border-l border-ink bg-ink px-5 font-mono text-xs uppercase tracking-wide text-paper hover:bg-steel transition-colors focus-ring">İncele</button>
+        <p className="mt-4 max-w-md text-steel">
+          Doğrulanmış alıcılardan gerçek kullanım deneyimleri. Reklam değil, sahte yorum değil — sadece kullananların anlattıkları.
+        </p>
+        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
+          <input name="q" placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
+          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">İncele</button>
         </form>
       </section>
 
-      <section className="py-12">
-        <h2 className="mb-6 font-display text-xl font-bold">Kategoriler</h2>
-        <div className="space-y-8">
+      <section className="py-8">
+        <h2 className="mb-5 text-sm font-bold uppercase tracking-wide text-steel">Kategoriler</h2>
+        <div className="space-y-7">
           {categories.map((cat) => (
             <div key={cat.slug}>
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-steel">{cat.name}</p>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-steelLight">{cat.name}</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                 {cat.subcategories.map((c) => (
-                  <Link key={c.slug} href={`/kategori/${c.slug}`} className="group border border-ink bg-white p-4 transition-colors hover:bg-ink hover:text-paper focus-ring">
-                    <p className="font-display font-semibold">{c.name}</p>
-                    <p className="mt-1 font-mono text-xs text-steel group-hover:text-steelLight">{c._count.products} ürün</p>
+                  <Link key={c.slug} href={`/kategori/${c.slug}`} className="rounded-xl border border-line bg-white p-4 text-center transition-colors hover:border-amber focus-ring">
+                    <p className="font-semibold text-ink">{c.name}</p>
+                    <p className="mt-0.5 text-xs text-steelLight">{c._count.products} ürün</p>
                   </Link>
                 ))}
               </div>
@@ -53,22 +54,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-12">
-        <h2 className="mb-5 font-display text-xl font-bold">En çok yorumlananlar</h2>
+      <section className="py-8">
+        <h2 className="mb-5 text-sm font-bold uppercase tracking-wide text-steel">En çok yorumlananlar</h2>
         {featured.length === 0 ? (
-          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">Henüz ürün eklenmedi.</p>
+          <p className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Henüz ürün eklenmedi.</p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
-              <Link key={p.slug} href={`/urun/${p.slug}`} className="border border-ink bg-white p-5 transition-shadow hover:shadow-[4px_4px_0_#1B1E23] focus-ring">
-                <p className="font-mono text-xs uppercase tracking-wide text-steel">{p.brand}</p>
-                <h3 className="mt-1 font-display text-lg font-bold leading-snug">{p.model}</h3>
-                <div className="tear-line my-4" />
-                <div className="flex items-center justify-between">
+              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-2xl border border-line bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus-ring">
+                <p className="text-xs font-medium text-steelLight">{p.brand}</p>
+                <h3 className="mt-1 font-semibold text-ink">{p.model}</h3>
+                <div className="mt-3 flex items-center gap-2">
                   <RatingTag score={p.rating} />
-                  <span className="font-mono text-xs text-steel">{p.reviewCount} yorum</span>
+                  <span className="text-xs text-steelLight">{p.reviewCount} yorum</span>
                 </div>
-                {p.verified && <p className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-teal">● Doğrulanmış alışverişler mevcut</p>}
+                {p.verified && <p className="mt-3 text-xs font-medium text-teal">● Doğrulanmış alışverişler mevcut</p>}
               </Link>
             ))}
           </div>

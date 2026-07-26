@@ -4,21 +4,12 @@ import RatingTag from "../components/RatingTag";
 
 export const revalidate = 0;
 
-export default async function AramaPage({
-  searchParams,
-}: {
-  searchParams: { q?: string };
-}) {
+export default async function AramaPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = (searchParams.q || "").trim();
 
   const products = query
     ? await prisma.product.findMany({
-        where: {
-          OR: [
-            { brand: { contains: query, mode: "insensitive" } },
-            { model: { contains: query, mode: "insensitive" } },
-          ],
-        },
+        where: { OR: [{ brand: { contains: query, mode: "insensitive" } }, { model: { contains: query, mode: "insensitive" } }] },
         include: { reviews: true },
       })
     : [];
@@ -30,55 +21,35 @@ export default async function AramaPage({
   });
 
   return (
-    <main className="mx-auto max-w-6xl px-5 pb-24">
-      <div className="border-b border-ink py-8">
-        <p className="font-mono text-xs uppercase tracking-widest text-steel">Arama sonuçları</p>
-        <h1 className="mt-1 font-display text-2xl font-bold sm:text-3xl">
+    <main className="mx-auto max-w-5xl px-6 pb-24">
+      <div className="pt-10 pb-6">
+        <p className="text-xs font-semibold uppercase tracking-wide text-steelLight">Arama sonuçları</p>
+        <h1 className="mt-1 text-2xl font-extrabold text-ink sm:text-3xl">
           {query ? `"${query}" için ${results.length} sonuç` : "Ne aramıştın?"}
         </h1>
-
-        <form action="/ara" className="mt-6 flex max-w-lg border border-ink bg-white">
-          <input
-            name="q"
-            defaultValue={query}
-            placeholder="ör. iPhone 15, Galaxy Buds, MacBook…"
-            className="w-full bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-steelLight"
-          />
-          <button
-            type="submit"
-            className="shrink-0 border-l border-ink bg-ink px-5 font-mono text-xs uppercase tracking-wide text-paper hover:bg-steel transition-colors focus-ring"
-          >
-            Ara
-          </button>
+        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
+          <input name="q" defaultValue={query} placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
+          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Ara</button>
         </form>
       </div>
 
-      <section className="py-10">
+      <section className="py-6">
         {!query ? (
-          <p className="border border-dashed border-line bg-white p-6 text-sm text-steel">
-            Marka veya model adı yazıp aramayı dene.
-          </p>
+          <p className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Marka veya model adı yazıp aramayı dene.</p>
         ) : results.length === 0 ? (
-          <div className="border border-dashed border-line bg-white p-6 text-sm text-steel">
+          <div className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">
             <p>"{query}" ile eşleşen bir ürün bulamadık.</p>
-            <Link href="/urun-ekle" className="mt-3 inline-block border border-ink px-4 py-2 text-sm font-medium text-ink hover:bg-ink hover:text-paper transition-colors focus-ring">
-              Bu ürünü sen ekle
-            </Link>
+            <Link href="/urun-ekle" className="mt-3 inline-block rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Bu ürünü sen ekle</Link>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/urun/${p.slug}`}
-                className="border border-ink bg-white p-5 transition-shadow hover:shadow-[4px_4px_0_#1B1E23] focus-ring"
-              >
-                <p className="font-mono text-xs uppercase tracking-wide text-steel">{p.brand}</p>
-                <h3 className="mt-1 font-display text-lg font-bold leading-snug">{p.model}</h3>
-                <div className="tear-line my-4" />
-                <div className="flex items-center justify-between">
+              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-2xl border border-line bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus-ring">
+                <p className="text-xs font-medium text-steelLight">{p.brand}</p>
+                <h3 className="mt-1 font-semibold text-ink">{p.model}</h3>
+                <div className="mt-3 flex items-center gap-2">
                   <RatingTag score={p.rating} />
-                  <span className="font-mono text-xs text-steel">{p.reviewCount} yorum</span>
+                  <span className="text-xs text-steelLight">{p.reviewCount} yorum</span>
                 </div>
               </Link>
             ))}
