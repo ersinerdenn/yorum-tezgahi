@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="100%" height="100%">
+  <defs>
+    <!-- Renk Tanımlamaları -->
+    <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- AMBLEM / İKON -->
+  <g transform="translate(10, 10)">
+    <!-- Tezgah / Stant Tabanı (Zanaat Yuvası) -->
+    <path d="M 15 85 L 85 85 L 80 93 L 20 93 Z" fill="#D97706" />
+    <rect x="25" y="93" width="8" height="12" rx="2" fill="#B45309" />
+    <rect x="67" y="93" width="8" height="12" rx="2" fill="#B45309" />
+
+    <!-- Yorum Balonu (İşlenen/Yontulan Fikir) -->
+    <path d="M 20 25 C 20 16.716 26.716 10 35 10 L 65 10 C 73.284 10 80 16.716 80 25 L 80 50 C 80 58.284 73.284 65 65 65 L 42 65 L 28 77 L 31 65 L 35 65 C 26.716 65 20 58.284 20 50 Z" fill="url(#bubbleGrad)" />
+    
+    <!-- Ahşap Zanaat Detayı (Yontma/Yıldız Çizgileri) -->
+    <path d="M 38 32 L 62 32" stroke="#F59E0B" stroke-width="4" stroke-linecap="round" />
+    <path d="M 43 43 L 57 43" stroke="#F59E0B" stroke-width="4" stroke-linecap="round" />
+    
+    <!-- Keski / Kalem Dokunuşu (Zanaat Simgesi) -->
+    <circle cx="68" cy="22" r="4" fill="#F59E0B" />
+  </g>
+
+  <!-- TİPOGRAFİ / YAZI -->
+  <g transform="translate(120, 0)">
+    <!-- "yorum" Kısmı (Modern & Temiz) -->
+    <text x="0" y="62" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="42" fill="#0F172A" letter-spacing="-1">yorum</text>
+    
+    <!-- "TEZGAHI" Kısmı (Vurgulu & Endüstriyel Dokunuş) -->
+    <text x="135" y="62" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="400" font-size="42" fill="#D97706" letter-spacing="1">TEZGAHI</text>
+    
+    <!-- Slogan / Uzantı -->
+    <text x="2" y="88" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14" fill="#64748B" letter-spacing="3">.COM  |  FİKİR &amp; DEĞERLENDİRME ATÖLYESİ</text>
+  </g>
+</svg>

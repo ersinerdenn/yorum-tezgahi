@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/session";
 import LogoutButton from "./LogoutButton";
+import Logo from "./Logo";
 
 export default async function Navbar() {
   const user = await getCurrentUser();
   return (
     <header className="sticky top-0 z-50 border-b border-ink bg-paper/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-ink font-display text-sm font-bold text-paper">YT</span>
-          <span className="font-display text-lg font-bold tracking-tight">Yorum Tezgahı</span>
+        <Link href="/" className="shrink-0 py-1">
+          <Logo className="h-12 w-auto sm:h-14" />
         </Link>
         <form action="/ara" className="hidden flex-1 items-center border border-ink bg-white sm:flex">
           <input name="q" type="text" placeholder="Marka, model veya ürün ara…" className="w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-steelLight" />
