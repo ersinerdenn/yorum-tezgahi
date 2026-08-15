@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { isAdminUser } from "@/lib/admin";
 
 const schema = z.object({
   overallRating: z.number().min(1).max(5),
@@ -48,7 +49,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   const existing = await prisma.review.findUnique({ where: { id: params.id } });
   if (!existing) return NextResponse.json({ error: "Yorum bulunamadı." }, { status: 404 });
-  if (existing.userId !== user.id) return NextResponse.json({ error: "Bu yorum sana ait değil." }, { status: 403 });
+  if (existing.userId !== user.id && !isAdminUser(user)) return NextResponse.json({ error: "Bu yorum sana ait değil." }, { status: 403 });
 
   await prisma.reviewMetricScore.deleteMany({ where: { reviewId: params.id } });
   await prisma.review.delete({ where: { id: params.id } });

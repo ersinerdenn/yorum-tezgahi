@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Yorum Tezgahı — Gerçek kullanıcılardan gerçek deneyimler",
@@ -19,6 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-body">
         <Navbar />
         {children}
+        <Footer />
+        <Analytics />
       </body>
     </html>
   );

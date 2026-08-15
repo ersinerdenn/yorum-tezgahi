@@ -13,6 +13,14 @@ export async function POST(req: NextRequest) {
 
   const { email } = parsed.data;
   const emailHash = hashEmail(email);
+
+  const recentCount = await prisma.otpCode.count({
+    where: { emailHash, createdAt: { gt: new Date(Date.now() - 60 * 60 * 1000) } },
+  });
+  if (recentCount >= 5) {
+    return NextResponse.json({ error: "Çok fazla deneme yaptın, lütfen bir süre sonra tekrar dene." }, { status: 429 });
+  }
+
   const code = generateOtpCode();
   const codeHash = await hashCode(code);
 
