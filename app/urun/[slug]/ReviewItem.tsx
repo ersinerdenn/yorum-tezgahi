@@ -19,15 +19,7 @@ type ReviewData = {
   metricScores: MetricScoreRow[];
 };
 
-export default function ReviewItem({
-  review,
-  metricSchema,
-  isOwner,
-}: {
-  review: ReviewData;
-  metricSchema: Metric[];
-  isOwner: boolean;
-}) {
+export default function ReviewItem({ review, metricSchema, isOwner }: { review: ReviewData; metricSchema: Metric[]; isOwner: boolean }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -43,19 +35,13 @@ export default function ReviewItem({
 
   async function saveEdit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
-    setLoading(true);
+    setError(""); setLoading(true);
     const res = await fetch(`/api/reviews/${review.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      method: "PATCH", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ overallRating, title, body, usageDuration: usageDuration || undefined, metricScores }),
     });
     setLoading(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error || "Güncellenemedi.");
-      return;
-    }
+    if (!res.ok) { const data = await res.json().catch(() => ({})); setError(data.error || "Güncellenemedi."); return; }
     setEditing(false);
     router.refresh();
   }
@@ -65,10 +51,7 @@ export default function ReviewItem({
     setDeleting(true);
     const res = await fetch(`/api/reviews/${review.id}`, { method: "DELETE" });
     setDeleting(false);
-    if (!res.ok) {
-      alert("Yorum silinemedi, tekrar dene.");
-      return;
-    }
+    if (!res.ok) { alert("Yorum silinemedi, tekrar dene."); return; }
     router.refresh();
   }
 
@@ -79,14 +62,7 @@ export default function ReviewItem({
           <label className="text-xs font-semibold uppercase tracking-wide text-steel">Genel puan</label>
           <div className="mt-2 flex gap-2">
             {[1, 2, 3, 4, 5].map((n) => (
-              <button
-                type="button"
-                key={n}
-                onClick={() => setOverallRating(n)}
-                className={`h-9 w-9 rounded-full text-sm font-medium transition-colors ${overallRating === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}
-              >
-                {n}
-              </button>
+              <button type="button" key={n} onClick={() => setOverallRating(n)} className={`h-9 w-9 rounded-full text-sm font-medium transition-colors ${overallRating === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}>{n}</button>
             ))}
           </div>
         </div>
@@ -111,14 +87,7 @@ export default function ReviewItem({
                   <span className="text-sm text-ink">{m.label}</span>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((n) => (
-                      <button
-                        type="button"
-                        key={n}
-                        onClick={() => setMetricScores((s) => ({ ...s, [m.key]: n }))}
-                        className={`h-7 w-7 rounded-full text-xs font-medium transition-colors ${metricScores[m.key] === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}
-                      >
-                        {n}
-                      </button>
+                      <button type="button" key={n} onClick={() => setMetricScores((s) => ({ ...s, [m.key]: n }))} className={`h-7 w-7 rounded-full text-xs font-medium transition-colors ${metricScores[m.key] === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}>{n}</button>
                     ))}
                   </div>
                 </div>
@@ -128,12 +97,8 @@ export default function ReviewItem({
         )}
         {error && <p className="text-sm text-rust">{error}</p>}
         <div className="flex gap-3">
-          <button type="submit" disabled={loading} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel disabled:opacity-50">
-            {loading ? "Kaydediliyor…" : "Değişiklikleri kaydet"}
-          </button>
-          <button type="button" onClick={() => setEditing(false)} className="px-4 py-2 text-sm text-steel hover:text-ink">
-            Vazgeç
-          </button>
+          <button type="submit" disabled={loading} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel disabled:opacity-50">{loading ? "Kaydediliyor…" : "Değişiklikleri kaydet"}</button>
+          <button type="button" onClick={() => setEditing(false)} className="px-4 py-2 text-sm text-steel hover:text-ink">Vazgeç</button>
         </div>
       </form>
     );
@@ -148,43 +113,28 @@ export default function ReviewItem({
         </div>
         {review.verifiedPurchase && <span className="text-xs font-medium text-teal">● Doğrulanmış Alışveriş</span>}
       </div>
-
       <p className="mt-3 text-sm leading-relaxed text-ink">{review.body}</p>
-
       {review.receiptUrl && (
         <a href={review.receiptUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block">
           <img src={review.receiptUrl} alt="Fiş / fatura" className="h-20 w-20 rounded-lg border border-line object-cover hover:opacity-80 transition-opacity" />
         </a>
       )}
-
       {review.metricScores.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-4 border-t border-line pt-4">
           {review.metricScores.map((m) => {
             const label = metricSchema.find((ms) => ms.key === m.key)?.label ?? m.key;
-            return (
-              <span key={m.id} className="text-xs text-steel">
-                {label}: <span className="font-semibold text-ink">{m.score}/5</span>
-              </span>
-            );
+            return <span key={m.id} className="text-xs text-steel">{label}: <span className="font-semibold text-ink">{m.score}/5</span></span>;
           })}
         </div>
       )}
-
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3 text-xs text-steelLight">
-        <span>
-          {review.user.displayName}
-          {review.usageDuration ? ` — ${review.usageDuration}` : ""}
-        </span>
+        <span>{review.user.displayName}{review.usageDuration ? ` — ${review.usageDuration}` : ""}</span>
         <div className="flex items-center gap-3">
           <span>{new Date(review.createdAt).toLocaleDateString("tr-TR")}</span>
           {isOwner && (
             <>
-              <button onClick={() => setEditing(true)} className="font-medium text-steel hover:text-ink">
-                Düzenle
-              </button>
-              <button onClick={handleDelete} disabled={deleting} className="font-medium text-rust hover:text-rust/80 disabled:opacity-50">
-                {deleting ? "Siliniyor…" : "Sil"}
-              </button>
+              <button onClick={() => setEditing(true)} className="font-medium text-steel hover:text-ink">Düzenle</button>
+              <button onClick={handleDelete} disabled={deleting} className="font-medium text-rust hover:text-rust/80 disabled:opacity-50">{deleting ? "Siliniyor…" : "Sil"}</button>
             </>
           )}
         </div>

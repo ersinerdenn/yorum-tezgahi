@@ -1,14 +1,22 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import RatingTag from "../../components/RatingTag";
 import ReviewForm from "./ReviewForm";
 import ReviewItem from "./ReviewItem";
+import ReviewFilters from "./ReviewFilters";
 
 export const revalidate = 0;
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { sirala?: string; dogrulanmis?: string };
+}) {
   const [product, user] = await Promise.all([
     prisma.product.findUnique({
       where: { slug: params.slug },
@@ -22,6 +30,24 @@ export default async function ProductPage({ params }: { params: { slug: string }
   const reviewCount = product.reviews.length;
   const avgRating = reviewCount > 0 ? product.reviews.reduce((s, r) => s + r.overallRating, 0) / reviewCount : 0;
   const metricSchema: { key: string; label: string }[] = JSON.parse(product.subcategory.metricSchema);
+
+  let visibleReviews = [...product.reviews];
+  if (searchParams.dogrulanmis === "1") {
+    visibleReviews = visibleReviews.filter((r) => r.verifiedPurchase);
+  }
+  switch (searchParams.sirala) {
+    case "eski":
+      visibleReviews.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+      break;
+    case "yuksek":
+      visibleReviews.sort((a, b) => b.overallRating - a.overallRating);
+      break;
+    case "dusuk":
+      visibleReviews.sort((a, b) => a.overallRating - b.overallRating);
+      break;
+    default:
+      visibleReviews.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
 
   return (
     <main className="mx-auto max-w-3xl px-6 pb-24">
@@ -46,16 +72,22 @@ export default async function ProductPage({ params }: { params: { slug: string }
         {reviewCount === 0 ? (
           <p className="mt-6 rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Bu ürün için henüz yorum yapılmadı. İlk yorumu sen yazabilirsin.</p>
         ) : (
-          <div className="mt-6 space-y-4">
-            {product.reviews.map((r) => (
-              <ReviewItem
-                key={r.id}
-                review={{ ...r, createdAt: r.createdAt.toISOString() }}
-                metricSchema={metricSchema}
-                isOwner={user?.id === r.userId}
-              />
-            ))}
-          </div>
+          <>
+            <div className="mt-5">
+              <Suspense fallback={null}>
+                <ReviewFilters />
+              </Suspense>
+            </div>
+            {visibleReviews.length === 0 ? (
+              <p className="mt-6 rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Bu filtreye uyan bir yorum yok.</p>
+            ) : (
+              <div className="mt-6 space-y-4">
+                {visibleReviews.map((r) => (
+                  <ReviewItem key={r.id} review={{ ...r, createdAt: r.createdAt.toISOString() }} metricSchema={metricSchema} isOwner={user?.id === r.userId} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </section>
     </main>

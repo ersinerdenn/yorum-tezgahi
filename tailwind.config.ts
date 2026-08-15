@@ -19,9 +19,6 @@ const config: Config = {
         body: ["Inter", "sans-serif"],
         mono: ["Inter", "sans-serif"],
       },
-      borderRadius: {
-        xl2: "1rem",
-      },
     },
   },
   plugins: [],

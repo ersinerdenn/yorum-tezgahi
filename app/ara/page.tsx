@@ -6,7 +6,6 @@ export const revalidate = 0;
 
 export default async function AramaPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = (searchParams.q || "").trim();
-
   const products = query
     ? await prisma.product.findMany({
         where: { OR: [{ brand: { contains: query, mode: "insensitive" } }, { model: { contains: query, mode: "insensitive" } }] },
@@ -32,7 +31,6 @@ export default async function AramaPage({ searchParams }: { searchParams: { q?: 
           <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Ara</button>
         </form>
       </div>
-
       <section className="py-6">
         {!query ? (
           <p className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Marka veya model adı yazıp aramayı dene.</p>

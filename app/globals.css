@@ -6,19 +6,13 @@ body {
   background-color: #FAFAF9;
   color: #18181B;
 }
-
 .rating-pill {
   background: #FEF3E2;
   color: #D97706;
   border-radius: 9999px;
   font-weight: 700;
 }
-
-.focus-ring:focus-visible {
-  outline: 2px solid #D97706;
-  outline-offset: 2px;
-}
-
+.focus-ring:focus-visible { outline: 2px solid #D97706; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }

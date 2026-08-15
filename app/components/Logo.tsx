@@ -7,8 +7,6 @@ export default function Logo({ className = "h-12" }: { className?: string }) {
           <stop offset="100%" stopColor="#0F172A" />
         </linearGradient>
       </defs>
-
-      {/* Amblem */}
       <g transform="translate(10, 10)">
         <path d="M 15 85 L 85 85 L 80 93 L 20 93 Z" fill="#D97706" />
         <rect x="25" y="93" width="8" height="12" rx="2" fill="#B45309" />
@@ -21,8 +19,6 @@ export default function Logo({ className = "h-12" }: { className?: string }) {
         <path d="M 43 43 L 57 43" stroke="#F59E0B" strokeWidth="4" strokeLinecap="round" />
         <circle cx="68" cy="22" r="4" fill="#F59E0B" />
       </g>
-
-      {/* Yazı */}
       <g transform="translate(120, 0)">
         <text x="0" y="62" fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" fontWeight="800" fontSize="42" fill="#0F172A" letterSpacing="-1">
           yorum

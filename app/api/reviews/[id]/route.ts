@@ -35,12 +35,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       usageDuration,
       receiptUrl: receiptUrl ?? existing.receiptUrl,
       verifiedPurchase: Boolean(receiptUrl ?? existing.receiptUrl),
-      metricScores: metricScores
-        ? {
-            deleteMany: {},
-            create: Object.entries(metricScores).map(([key, score]) => ({ key, score })),
-          }
-        : undefined,
+      metricScores: metricScores ? { deleteMany: {}, create: Object.entries(metricScores).map(([key, score]) => ({ key, score })) } : undefined,
     },
   });
 
@@ -57,6 +52,5 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   await prisma.reviewMetricScore.deleteMany({ where: { reviewId: params.id } });
   await prisma.review.delete({ where: { id: params.id } });
-
   return NextResponse.json({ ok: true });
 }

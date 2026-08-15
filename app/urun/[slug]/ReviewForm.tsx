@@ -21,7 +21,6 @@ export default function ReviewForm({ productSlug, metricSchema }: { productSlug:
     setError(""); setLoading(true);
 
     let receiptUrl: string | undefined;
-
     if (receiptFile) {
       const fd = new FormData();
       fd.append("file", receiptFile);
@@ -94,12 +93,7 @@ export default function ReviewForm({ productSlug, metricSchema }: { productSlug:
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">
           Fiş / fatura fotoğrafı <span className="text-steelLight normal-case">(isteğe bağlı, "Doğrulanmış Alışveriş" rozeti kazandırır)</span>
         </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setReceiptFile(e.target.files?.[0] ?? null)}
-          className="mt-2 block w-full text-sm text-steel file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white"
-        />
+        <input type="file" accept="image/*" onChange={(e) => setReceiptFile(e.target.files?.[0] ?? null)} className="mt-2 block w-full text-sm text-steel file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white" />
         {receiptFile && <p className="mt-2 text-xs text-teal">✓ {receiptFile.name} seçildi</p>}
       </div>
       <div className="flex gap-3">
