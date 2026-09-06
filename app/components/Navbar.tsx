@@ -8,9 +8,7 @@ export default async function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center gap-6 px-6 py-2">
-        <Link href="/" className="shrink-0 py-1">
-          <Logo className="h-11 w-auto sm:h-12" />
-        </Link>
+        <Link href="/" className="shrink-0 py-1"><Logo className="h-11 w-auto sm:h-12" /></Link>
         <form action="/ara" className="hidden flex-1 items-center rounded-full bg-[#F4F4F5] px-4 py-2.5 sm:flex">
           <input name="q" type="text" placeholder="Marka, model veya ürün ara…" className="w-full bg-transparent text-sm outline-none placeholder:text-steelLight" />
           <button type="submit" className="text-steel hover:text-ink focus-ring" aria-label="Ara">

@@ -5,12 +5,8 @@ import { getCurrentUser } from "@/lib/session";
 import { isAdminUser } from "@/lib/admin";
 
 const schema = z.object({
-  overallRating: z.number().min(1).max(5),
-  title: z.string().min(3).max(100),
-  body: z.string().min(10).max(2000),
-  usageDuration: z.string().max(100).optional(),
-  metricScores: z.record(z.number().min(1).max(5)).optional(),
-  receiptUrl: z.string().url().optional(),
+  overallRating: z.number().min(1).max(5), title: z.string().min(3).max(100), body: z.string().min(10).max(2000),
+  usageDuration: z.string().max(100).optional(), metricScores: z.record(z.number().min(1).max(5)).optional(), receiptUrl: z.string().url().optional(),
 });
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
@@ -26,20 +22,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (!parsed.success) return NextResponse.json({ error: "Form bilgileri eksik veya hatalı." }, { status: 400 });
 
   const { overallRating, title, body: reviewBody, usageDuration, metricScores, receiptUrl } = parsed.data;
-
   await prisma.review.update({
     where: { id: params.id },
     data: {
-      overallRating,
-      title,
-      body: reviewBody,
-      usageDuration,
-      receiptUrl: receiptUrl ?? existing.receiptUrl,
+      overallRating, title, body: reviewBody, usageDuration, receiptUrl: receiptUrl ?? existing.receiptUrl,
       verifiedPurchase: Boolean(receiptUrl ?? existing.receiptUrl),
       metricScores: metricScores ? { deleteMany: {}, create: Object.entries(metricScores).map(([key, score]) => ({ key, score })) } : undefined,
     },
   });
-
   return NextResponse.json({ ok: true });
 }
 

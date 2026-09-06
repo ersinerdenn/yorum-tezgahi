@@ -5,8 +5,17 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
-  title: "Yorum Tezgahı — Gerçek kullanıcılardan gerçek deneyimler",
+  metadataBase: new URL("https://yorumtezgahi.com"),
+  title: {
+    default: "Yorum Tezgahı — Gerçek kullanıcılardan gerçek deneyimler",
+    template: "%s | Yorum Tezgahı",
+  },
   description: "Satın almadan önce tezgaha yatır: doğrulanmış kullanıcılardan ürün ve deneyim yorumları.",
+  openGraph: {
+    siteName: "Yorum Tezgahı",
+    type: "website",
+    locale: "tr_TR",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

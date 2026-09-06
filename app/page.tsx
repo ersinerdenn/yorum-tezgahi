@@ -5,9 +5,7 @@ import RatingTag from "./components/RatingTag";
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const categories = await prisma.category.findMany({
-    include: { subcategories: { include: { _count: { select: { products: true } } } } },
-  });
+  const categories = await prisma.category.findMany({ include: { subcategories: { include: { _count: { select: { products: true } } } } } });
   const products = await prisma.product.findMany({ include: { reviews: true } });
 
   const featured = products
@@ -26,9 +24,7 @@ export default async function HomePage() {
         <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
           Satın almadan önce <span className="text-amber">tezgaha yatır.</span>
         </h1>
-        <p className="mt-4 max-w-md text-steel">
-          Doğrulanmış alıcılardan gerçek kullanım deneyimleri. Reklam değil, sahte yorum değil — sadece kullananların anlattıkları.
-        </p>
+        <p className="mt-4 max-w-md text-steel">Doğrulanmış alıcılardan gerçek kullanım deneyimleri. Reklam değil, sahte yorum değil — sadece kullananların anlattıkları.</p>
         <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
           <input name="q" placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
           <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">İncele</button>

@@ -8,7 +8,6 @@ export default function ProductForm({ subcategories }: { subcategories: Subcateg
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselected = searchParams.get("kategori") || "";
-
   const [subcategorySlug, setSubcategorySlug] = useState(preselected);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -43,9 +42,7 @@ export default function ProductForm({ subcategories }: { subcategories: Subcateg
         <input required value={model} onChange={(e) => setModel(e.target.value)} placeholder="ör. iPhone 15 Pro, Air Max 90…" className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring" />
       </div>
       {error && <p className="text-sm text-rust">{error}</p>}
-      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-colors hover:bg-steel disabled:opacity-50">
-        {loading ? "Ekleniyor…" : "Ürünü ekle"}
-      </button>
+      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-colors hover:bg-steel disabled:opacity-50">{loading ? "Ekleniyor…" : "Ürünü ekle"}</button>
     </form>
   );
 }

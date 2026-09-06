@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import RatingTag from "../components/RatingTag";
 
 export const revalidate = 0;
+export const metadata = { robots: { index: false } };
 
 export default async function AramaPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = (searchParams.q || "").trim();
@@ -23,9 +24,7 @@ export default async function AramaPage({ searchParams }: { searchParams: { q?: 
     <main className="mx-auto max-w-5xl px-6 pb-24">
       <div className="pt-10 pb-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-steelLight">Arama sonuçları</p>
-        <h1 className="mt-1 text-2xl font-extrabold text-ink sm:text-3xl">
-          {query ? `"${query}" için ${results.length} sonuç` : "Ne aramıştın?"}
-        </h1>
+        <h1 className="mt-1 text-2xl font-extrabold text-ink sm:text-3xl">{query ? `"${query}" için ${results.length} sonuç` : "Ne aramıştın?"}</h1>
         <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
           <input name="q" defaultValue={query} placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
           <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Ara</button>

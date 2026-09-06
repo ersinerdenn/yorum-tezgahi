@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const SORT_OPTIONS = [
@@ -13,7 +12,6 @@ export default function ReviewFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const currentSort = searchParams.get("sirala") || "yeni";
   const onlyVerified = searchParams.get("dogrulanmis") === "1";
 

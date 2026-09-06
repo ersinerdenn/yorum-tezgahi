@@ -1,22 +1,14 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
 
 model User {
   id          String   @id @default(cuid())
   emailHash   String   @unique
   displayName String
   createdAt   DateTime @default(now())
-
   reviews  Review[]
   otpCodes OtpCode[]
 }
-
 model OtpCode {
   id        String   @id @default(cuid())
   emailHash String
@@ -27,14 +19,12 @@ model OtpCode {
   userId    String?
   user      User?    @relation(fields: [userId], references: [id])
 }
-
 model Category {
   id            String         @id @default(cuid())
   slug          String         @unique
   name          String
   subcategories Subcategory[]
 }
-
 model Subcategory {
   id           String    @id @default(cuid())
   slug         String    @unique
@@ -44,7 +34,6 @@ model Subcategory {
   metricSchema String
   products     Product[]
 }
-
 model Product {
   id            String      @id @default(cuid())
   slug          String      @unique
@@ -54,10 +43,8 @@ model Product {
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
   imageUrl      String?
   createdAt     DateTime    @default(now())
-
   reviews Review[]
 }
-
 model Review {
   id               String   @id @default(cuid())
   productId        String
@@ -72,10 +59,8 @@ model Review {
   receiptUrl       String?
   helpfulCount     Int      @default(0)
   createdAt        DateTime @default(now())
-
   metricScores ReviewMetricScore[]
 }
-
 model ReviewMetricScore {
   id       String @id @default(cuid())
   reviewId String

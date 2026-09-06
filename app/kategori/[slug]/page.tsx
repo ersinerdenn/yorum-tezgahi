@@ -1,9 +1,23 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import RatingTag from "../../components/RatingTag";
 
 export const revalidate = 0;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const subcategory = await prisma.subcategory.findUnique({ where: { slug: params.slug } });
+  if (!subcategory) return {};
+  const title = `${subcategory.name} Yorumları ve Karşılaştırmaları`;
+  const description = `${subcategory.name} kategorisindeki ürünler için doğrulanmış kullanıcı yorumları, puanlar ve karşılaştırmalar.`;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/kategori/${subcategory.slug}` },
+    openGraph: { title, description },
+  };
+}
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const subcategory = await prisma.subcategory.findUnique({ where: { slug: params.slug }, include: { products: { include: { reviews: true } } } });
@@ -25,9 +39,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
         {products.length === 0 ? (
           <div className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">
             <p>Bu kategoride henüz ürün yok.</p>
-            <Link href={`/urun-ekle?kategori=${subcategory.slug}`} className="mt-3 inline-block rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">
-              İlk ürünü sen ekle
-            </Link>
+            <Link href={`/urun-ekle?kategori=${subcategory.slug}`} className="mt-3 inline-block rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">İlk ürünü sen ekle</Link>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

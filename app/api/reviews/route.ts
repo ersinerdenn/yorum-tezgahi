@@ -4,13 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 
 const schema = z.object({
-  productSlug: z.string(),
-  overallRating: z.number().min(1).max(5),
-  title: z.string().min(3).max(100),
-  body: z.string().min(10).max(2000),
-  usageDuration: z.string().max(100).optional(),
-  metricScores: z.record(z.number().min(1).max(5)).optional(),
-  receiptUrl: z.string().url().optional(),
+  productSlug: z.string(), overallRating: z.number().min(1).max(5), title: z.string().min(3).max(100),
+  body: z.string().min(10).max(2000), usageDuration: z.string().max(100).optional(),
+  metricScores: z.record(z.number().min(1).max(5)).optional(), receiptUrl: z.string().url().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -22,23 +18,15 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: "Form bilgileri eksik veya hatalı." }, { status: 400 });
 
   const { productSlug, overallRating, title, body: reviewBody, usageDuration, metricScores, receiptUrl } = parsed.data;
-
   const product = await prisma.product.findUnique({ where: { slug: productSlug } });
   if (!product) return NextResponse.json({ error: "Ürün bulunamadı." }, { status: 404 });
 
   const review = await prisma.review.create({
     data: {
-      productId: product.id,
-      userId: user.id,
-      overallRating,
-      title,
-      body: reviewBody,
-      usageDuration,
-      receiptUrl,
+      productId: product.id, userId: user.id, overallRating, title, body: reviewBody, usageDuration, receiptUrl,
       verifiedPurchase: Boolean(receiptUrl),
       metricScores: metricScores ? { create: Object.entries(metricScores).map(([key, score]) => ({ key, score })) } : undefined,
     },
   });
-
   return NextResponse.json({ ok: true, reviewId: review.id });
 }

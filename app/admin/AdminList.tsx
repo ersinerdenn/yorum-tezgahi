@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 
 type ProductRow = { id: string; brand: string; model: string; slug: string; reviewCount: number };
@@ -7,21 +6,18 @@ type ReviewRow = { id: string; title: string; body: string; productModel: string
 
 export default function AdminList({ products, reviews }: { products: ProductRow[]; reviews: ReviewRow[] }) {
   const router = useRouter();
-
   async function deleteProduct(id: string) {
     if (!confirm("Bu ürünü ve tüm yorumlarını silmek istediğine emin misin?")) return;
     const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
     if (!res.ok) { alert("Silinemedi."); return; }
     router.refresh();
   }
-
   async function deleteReview(id: string) {
     if (!confirm("Bu yorumu silmek istediğine emin misin?")) return;
     const res = await fetch(`/api/reviews/${id}`, { method: "DELETE" });
     if (!res.ok) { alert("Silinemedi."); return; }
     router.refresh();
   }
-
   return (
     <div className="space-y-10">
       <section>
@@ -35,7 +31,6 @@ export default function AdminList({ products, reviews }: { products: ProductRow[
           ))}
         </div>
       </section>
-
       <section>
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-steel">Son Yorumlar ({reviews.length})</h2>
         <div className="space-y-2">
