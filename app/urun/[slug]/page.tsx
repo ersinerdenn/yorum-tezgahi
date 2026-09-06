@@ -14,22 +14,13 @@ export const revalidate = 0;
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const product = await prisma.product.findUnique({ where: { slug: params.slug }, include: { reviews: true, subcategory: true } });
   if (!product) return {};
-
   const count = product.reviews.length;
   const avg = count > 0 ? product.reviews.reduce((s, r) => s + r.overallRating, 0) / count : 0;
-
   const title = `${product.brand} ${product.model} Yorumları — ${avg > 0 ? avg.toFixed(1) + "/5" : "Henüz Puanlanmadı"}`;
-  const description =
-    count > 0
-      ? `${product.brand} ${product.model} için ${count} doğrulanmış kullanıcı yorumu. Ortalama puan: ${avg.toFixed(1)}/5. Satın almadan önce gerçek deneyimleri oku.`
-      : `${product.brand} ${product.model} hakkında gerçek kullanıcı deneyimlerini oku, sen de yorum yaz.`;
-
-  return {
-    title,
-    description,
-    alternates: { canonical: `/urun/${product.slug}` },
-    openGraph: { title, description },
-  };
+  const description = count > 0
+    ? `${product.brand} ${product.model} için ${count} doğrulanmış kullanıcı yorumu. Ortalama puan: ${avg.toFixed(1)}/5.`
+    : `${product.brand} ${product.model} hakkında gerçek kullanıcı deneyimlerini oku, sen de yorum yaz.`;
+  return { title, description, alternates: { canonical: `/urun/${product.slug}` }, openGraph: { title, description } };
 }
 
 export default async function ProductPage({
@@ -68,11 +59,7 @@ export default async function ProductPage({
     name: `${product.brand} ${product.model}`,
     brand: { "@type": "Brand", name: product.brand },
     ...(reviewCount > 0 && {
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: avgRating.toFixed(1),
-        reviewCount: reviewCount,
-      },
+      aggregateRating: { "@type": "AggregateRating", ratingValue: avgRating.toFixed(1), reviewCount: reviewCount },
       review: product.reviews.slice(0, 10).map((r) => ({
         "@type": "Review",
         reviewRating: { "@type": "Rating", ratingValue: r.overallRating },
@@ -101,17 +88,17 @@ export default async function ProductPage({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-bold text-ink">Yorumlar</h2>
           {user ? <ReviewForm productSlug={product.slug} metricSchema={metricSchema} /> : (
-            <Link href="/giris" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Yorum yazmak için giriş yap</Link>
+            <Link href="/giris" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">Yorum yazmak için giriş yap</Link>
           )}
         </div>
 
         {reviewCount === 0 ? (
-          <p className="mt-6 rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Bu ürün için henüz yorum yapılmadı. İlk yorumu sen yazabilirsin.</p>
+          <p className="mt-6 rounded-2xl bg-white p-6 text-sm text-steel shadow-sm">Bu ürün için henüz yorum yapılmadı. İlk yorumu sen yazabilirsin.</p>
         ) : (
           <>
             <div className="mt-5"><Suspense fallback={null}><ReviewFilters /></Suspense></div>
             {visibleReviews.length === 0 ? (
-              <p className="mt-6 rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Bu filtreye uyan bir yorum yok.</p>
+              <p className="mt-6 rounded-2xl bg-white p-6 text-sm text-steel shadow-sm">Bu filtreye uyan bir yorum yok.</p>
             ) : (
               <div className="mt-6 space-y-4">
                 {visibleReviews.map((r) => (

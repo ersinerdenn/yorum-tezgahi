@@ -11,14 +11,8 @@ export const metadata: Metadata = {
     template: "%s | Yorum Tezgahı",
   },
   description: "Satın almadan önce tezgaha yatır: doğrulanmış kullanıcılardan ürün ve deneyim yorumları.",
-  openGraph: {
-    siteName: "Yorum Tezgahı",
-    type: "website",
-    locale: "tr_TR",
-  },
-  verification: {
-    google: "Ew_BUkrSiSzy0rQsg8be1xeLxbFcuM49YzX18T-1wSU",
-  },
+  openGraph: { siteName: "Yorum Tezgahı", type: "website", locale: "tr_TR" },
+  verification: { google: "Ew_BUkrSiSzy0rQsg8be1xeLxbFcuM49YzX18T-1wSU" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

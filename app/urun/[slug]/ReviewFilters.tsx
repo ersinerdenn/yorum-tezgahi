@@ -23,7 +23,7 @@ export default function ReviewFilters() {
 
   return (
     <div className="flex flex-wrap items-center gap-3 text-sm">
-      <select value={currentSort} onChange={(e) => updateParam("sirala", e.target.value)} className="rounded-full border border-line bg-white px-3 py-1.5 text-sm text-ink outline-none focus-ring">
+      <select value={currentSort} onChange={(e) => updateParam("sirala", e.target.value)} className="rounded-full bg-white px-3 py-1.5 text-sm text-ink shadow-sm outline-none focus-ring">
         {SORT_OPTIONS.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
       </select>
       <label className="flex items-center gap-1.5 text-steel">

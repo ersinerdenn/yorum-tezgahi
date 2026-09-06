@@ -4,8 +4,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#FAFAF9", ink: "#18181B", steel: "#71717A", steelLight: "#A1A1AA",
-        amber: "#D97706", amberSoft: "#FEF3E2", teal: "#059669", rust: "#DC2626", line: "#E7E5E4",
+        paper: "#F5F3FF",
+        ink: "#3B2A5C",
+        steel: "#8B7FA8",
+        steelLight: "#B0A8C7",
+        amber: "#7C3AED",
+        amberSoft: "#F3E8FF",
+        teal: "#059669",
+        rust: "#DC2626",
+        line: "#EAE3F7",
       },
       fontFamily: { display: ["Inter", "sans-serif"], body: ["Inter", "sans-serif"], mono: ["Inter", "sans-serif"] },
     },

@@ -1,7 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body { background-color: #FAFAF9; color: #18181B; }
-.rating-pill { background: #FEF3E2; color: #D97706; border-radius: 9999px; font-weight: 700; }
-.focus-ring:focus-visible { outline: 2px solid #D97706; outline-offset: 2px; }
+
+body {
+  background: linear-gradient(180deg, #FDF4FF 0%, #F5F3FF 100%);
+  background-attachment: fixed;
+  color: #3B2A5C;
+}
+.rating-pill {
+  background: #F3E8FF;
+  color: #7C3AED;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+.focus-ring:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }
+.card-shadow { box-shadow: 0 8px 24px rgba(124, 58, 237, 0.08); }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }

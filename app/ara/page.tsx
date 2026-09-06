@@ -25,23 +25,23 @@ export default async function AramaPage({ searchParams }: { searchParams: { q?: 
       <div className="pt-10 pb-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-steelLight">Arama sonuçları</p>
         <h1 className="mt-1 text-2xl font-extrabold text-ink sm:text-3xl">{query ? `"${query}" için ${results.length} sonuç` : "Ne aramıştın?"}</h1>
-        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
+        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full bg-white px-2 py-1.5 card-shadow">
           <input name="q" defaultValue={query} placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
-          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Ara</button>
+          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">Ara</button>
         </form>
       </div>
       <section className="py-6">
         {!query ? (
-          <p className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Marka veya model adı yazıp aramayı dene.</p>
+          <p className="rounded-2xl bg-white p-6 text-sm text-steel shadow-sm">Marka veya model adı yazıp aramayı dene.</p>
         ) : results.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">
+          <div className="rounded-2xl bg-white p-6 text-sm text-steel shadow-sm">
             <p>"{query}" ile eşleşen bir ürün bulamadık.</p>
-            <Link href="/urun-ekle" className="mt-3 inline-block rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Bu ürünü sen ekle</Link>
+            <Link href="/urun-ekle" className="mt-3 inline-block rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">Bu ürünü sen ekle</Link>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((p) => (
-              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-2xl border border-line bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus-ring">
+              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-3xl bg-white p-5 card-shadow transition-shadow hover:shadow-lg focus-ring">
                 <p className="text-xs font-medium text-steelLight">{p.brand}</p>
                 <h3 className="mt-1 font-semibold text-ink">{p.model}</h3>
                 <div className="mt-3 flex items-center gap-2">

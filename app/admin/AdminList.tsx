@@ -24,7 +24,7 @@ export default function AdminList({ products, reviews }: { products: ProductRow[
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-steel">Ürünler ({products.length})</h2>
         <div className="space-y-2">
           {products.map((p) => (
-            <div key={p.id} className="flex items-center justify-between rounded-lg border border-line bg-white px-4 py-3">
+            <div key={p.id} className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm">
               <span className="text-sm text-ink">{p.brand} — {p.model} <span className="text-steelLight">({p.reviewCount} yorum)</span></span>
               <button onClick={() => deleteProduct(p.id)} className="text-xs font-medium text-rust hover:text-rust/80">Sil</button>
             </div>
@@ -35,7 +35,7 @@ export default function AdminList({ products, reviews }: { products: ProductRow[
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-steel">Son Yorumlar ({reviews.length})</h2>
         <div className="space-y-2">
           {reviews.map((r) => (
-            <div key={r.id} className="flex items-center justify-between gap-4 rounded-lg border border-line bg-white px-4 py-3">
+            <div key={r.id} className="flex items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm">
               <div className="min-w-0">
                 <p className="truncate text-sm text-ink">{r.title} — <span className="text-steelLight">{r.productModel}</span></p>
                 <p className="text-xs text-steelLight">{r.userDisplayName} · {new Date(r.createdAt).toLocaleDateString("tr-TR")}</p>

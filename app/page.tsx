@@ -25,9 +25,9 @@ export default async function HomePage() {
           Satın almadan önce <span className="text-amber">tezgaha yatır.</span>
         </h1>
         <p className="mt-4 max-w-md text-steel">Doğrulanmış alıcılardan gerçek kullanım deneyimleri. Reklam değil, sahte yorum değil — sadece kullananların anlattıkları.</p>
-        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full border border-line bg-white px-2 py-1.5 shadow-sm">
+        <form action="/ara" className="mt-6 flex max-w-md items-center rounded-full bg-white px-2 py-1.5 card-shadow">
           <input name="q" placeholder="ör. iPhone 15, Galaxy Buds, MacBook…" className="flex-1 bg-transparent px-3 py-1.5 text-sm outline-none placeholder:text-steelLight" />
-          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">İncele</button>
+          <button type="submit" className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">İncele</button>
         </form>
       </section>
 
@@ -39,7 +39,7 @@ export default async function HomePage() {
               <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-steelLight">{cat.name}</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                 {cat.subcategories.map((c) => (
-                  <Link key={c.slug} href={`/kategori/${c.slug}`} className="rounded-xl border border-line bg-white p-4 text-center transition-colors hover:border-amber focus-ring">
+                  <Link key={c.slug} href={`/kategori/${c.slug}`} className="rounded-2xl bg-white p-4 text-center shadow-sm transition-shadow hover:shadow-md focus-ring">
                     <p className="font-semibold text-ink">{c.name}</p>
                     <p className="mt-0.5 text-xs text-steelLight">{c._count.products} ürün</p>
                   </Link>
@@ -53,11 +53,11 @@ export default async function HomePage() {
       <section className="py-8">
         <h2 className="mb-5 text-sm font-bold uppercase tracking-wide text-steel">En çok yorumlananlar</h2>
         {featured.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-line bg-white p-6 text-sm text-steel">Henüz ürün eklenmedi.</p>
+          <p className="rounded-2xl bg-white p-6 text-sm text-steel shadow-sm">Henüz ürün eklenmedi.</p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
-              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-2xl border border-line bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus-ring">
+              <Link key={p.slug} href={`/urun/${p.slug}`} className="rounded-3xl bg-white p-5 card-shadow transition-shadow hover:shadow-lg focus-ring">
                 <p className="text-xs font-medium text-steelLight">{p.brand}</p>
                 <h3 className="mt-1 font-semibold text-ink">{p.model}</h3>
                 <div className="mt-3 flex items-center gap-2">

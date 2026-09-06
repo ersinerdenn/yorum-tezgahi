@@ -14,19 +14,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/gizlilik`, changeFrequency: "yearly", priority: 0.2 },
     { url: `${BASE_URL}/kosullar`, changeFrequency: "yearly", priority: 0.2 },
   ];
-
-  const categoryEntries: MetadataRoute.Sitemap = subcategories.map((s) => ({
-    url: `${BASE_URL}/kategori/${s.slug}`,
-    changeFrequency: "daily",
-    priority: 0.7,
-  }));
-
-  const productEntries: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${BASE_URL}/urun/${p.slug}`,
-    lastModified: p.createdAt,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  }));
+  const categoryEntries: MetadataRoute.Sitemap = subcategories.map((s) => ({ url: `${BASE_URL}/kategori/${s.slug}`, changeFrequency: "daily", priority: 0.7 }));
+  const productEntries: MetadataRoute.Sitemap = products.map((p) => ({ url: `${BASE_URL}/urun/${p.slug}`, lastModified: p.createdAt, changeFrequency: "weekly", priority: 0.9 }));
 
   return [...staticEntries, ...categoryEntries, ...productEntries];
 }

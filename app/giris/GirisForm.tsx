@@ -34,10 +34,10 @@ export default function GirisForm() {
       <form onSubmit={requestCode} className="space-y-4">
         <div>
           <label className="text-xs font-semibold uppercase tracking-wide text-steel">E-posta</label>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ornek@eposta.com" className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring" />
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ornek@eposta.com" className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-sm outline-none focus-ring" />
         </div>
         {error && <p className="text-sm text-rust">{error}</p>}
-        <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-colors hover:bg-steel disabled:opacity-50">{loading ? "Gönderiliyor…" : "Doğrulama kodu gönder"}</button>
+        <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50">{loading ? "Gönderiliyor…" : "Doğrulama kodu gönder"}</button>
       </form>
     );
   }
@@ -47,14 +47,14 @@ export default function GirisForm() {
       <p className="text-sm text-steel"><strong className="text-ink">{email}</strong> adresine 6 haneli bir kod gönderdik.</p>
       <div>
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">Doğrulama kodu</label>
-        <input type="text" required inputMode="numeric" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} placeholder="000000" className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-center text-lg tracking-[0.5em] outline-none focus-ring" />
+        <input type="text" required inputMode="numeric" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} placeholder="000000" className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-center text-lg tracking-[0.5em] outline-none focus-ring" />
       </div>
       <div>
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">Görünen adın <span className="text-steelLight normal-case">(isteğe bağlı)</span></label>
-        <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="ör. Ahmet K." className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring" />
+        <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="ör. Ahmet K." className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-sm outline-none focus-ring" />
       </div>
       {error && <p className="text-sm text-rust">{error}</p>}
-      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-colors hover:bg-steel disabled:opacity-50">{loading ? "Kontrol ediliyor…" : "Giriş yap"}</button>
+      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50">{loading ? "Kontrol ediliyor…" : "Giriş yap"}</button>
       <button type="button" onClick={() => setStep("email")} className="w-full text-center text-xs text-steel hover:text-ink">E-postayı değiştir</button>
     </form>
   );

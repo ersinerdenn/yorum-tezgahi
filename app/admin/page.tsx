@@ -14,7 +14,7 @@ export default async function AdminPage() {
       <main className="mx-auto max-w-sm px-6 py-24 text-center">
         <h1 className="text-xl font-extrabold text-ink">Bu sayfaya erişimin yok</h1>
         <p className="mt-3 text-sm text-steel">{user ? "Bu hesap yönetici olarak tanımlı değil." : "Önce giriş yapman gerekiyor."}</p>
-        {!user && <Link href="/giris" className="mt-6 inline-block rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Giriş yap</Link>}
+        {!user && <Link href="/giris" className="mt-6 inline-block rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">Giriş yap</Link>}
       </main>
     );
   }

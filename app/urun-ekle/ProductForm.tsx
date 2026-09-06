@@ -25,24 +25,24 @@ export default function ProductForm({ subcategories }: { subcategories: Subcateg
   }
 
   return (
-    <form onSubmit={submit} className="space-y-5 rounded-2xl border border-line bg-white p-6 shadow-sm">
+    <form onSubmit={submit} className="space-y-5 rounded-3xl bg-white p-6 card-shadow">
       <div>
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">Kategori</label>
-        <select required value={subcategorySlug} onChange={(e) => setSubcategorySlug(e.target.value)} className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring">
+        <select required value={subcategorySlug} onChange={(e) => setSubcategorySlug(e.target.value)} className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-sm outline-none focus-ring">
           <option value="" disabled>Bir kategori seç</option>
           {subcategories.map((s) => <option key={s.slug} value={s.slug}>{s.categoryName} — {s.name}</option>)}
         </select>
       </div>
       <div>
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">Marka</label>
-        <input required value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="ör. Apple, Decathlon, Nike…" className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring" />
+        <input required value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="ör. Apple, Decathlon, Nike…" className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-sm outline-none focus-ring" />
       </div>
       <div>
         <label className="text-xs font-semibold uppercase tracking-wide text-steel">Model / Ürün adı</label>
-        <input required value={model} onChange={(e) => setModel(e.target.value)} placeholder="ör. iPhone 15 Pro, Air Max 90…" className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none focus-ring" />
+        <input required value={model} onChange={(e) => setModel(e.target.value)} placeholder="ör. iPhone 15 Pro, Air Max 90…" className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2.5 text-sm outline-none focus-ring" />
       </div>
       {error && <p className="text-sm text-rust">{error}</p>}
-      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-colors hover:bg-steel disabled:opacity-50">{loading ? "Ekleniyor…" : "Ürünü ekle"}</button>
+      <button type="submit" disabled={loading} className="w-full rounded-full bg-ink px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50">{loading ? "Ekleniyor…" : "Ürünü ekle"}</button>
     </form>
   );
 }

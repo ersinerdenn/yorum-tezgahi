@@ -44,16 +44,16 @@ export default function ReviewItem({ review, metricSchema, isOwner }: { review: 
 
   if (editing) {
     return (
-      <form onSubmit={saveEdit} className="space-y-5 rounded-2xl border border-line bg-white p-6 shadow-sm">
+      <form onSubmit={saveEdit} className="space-y-5 rounded-3xl bg-white p-6 card-shadow">
         <div>
           <label className="text-xs font-semibold uppercase tracking-wide text-steel">Genel puan</label>
           <div className="mt-2 flex gap-2">
-            {[1, 2, 3, 4, 5].map((n) => (<button type="button" key={n} onClick={() => setOverallRating(n)} className={`h-9 w-9 rounded-full text-sm font-medium transition-colors ${overallRating === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}>{n}</button>))}
+            {[1, 2, 3, 4, 5].map((n) => (<button type="button" key={n} onClick={() => setOverallRating(n)} className={`h-9 w-9 rounded-full text-sm font-medium transition-colors ${overallRating === n ? "bg-ink text-white" : "bg-[#F5F3FF] text-steel"}`}>{n}</button>))}
           </div>
         </div>
-        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Başlık</label><input required value={title} onChange={(e) => setTitle(e.target.value)} className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2 text-sm outline-none focus-ring" /></div>
-        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Deneyimin</label><textarea required minLength={10} value={body} onChange={(e) => setBody(e.target.value)} rows={4} className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2 text-sm outline-none focus-ring" /></div>
-        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Ne kadardır kullanıyorsun?</label><input value={usageDuration} onChange={(e) => setUsageDuration(e.target.value)} className="mt-1 w-full rounded-lg border border-line bg-white px-3 py-2 text-sm outline-none focus-ring" /></div>
+        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Başlık</label><input required value={title} onChange={(e) => setTitle(e.target.value)} className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2 text-sm outline-none focus-ring" /></div>
+        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Deneyimin</label><textarea required minLength={10} value={body} onChange={(e) => setBody(e.target.value)} rows={4} className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2 text-sm outline-none focus-ring" /></div>
+        <div><label className="text-xs font-semibold uppercase tracking-wide text-steel">Ne kadardır kullanıyorsun?</label><input value={usageDuration} onChange={(e) => setUsageDuration(e.target.value)} className="mt-1 w-full rounded-xl bg-[#F5F3FF] px-3 py-2 text-sm outline-none focus-ring" /></div>
         {metricSchema.length > 0 && (
           <div className="border-t border-line pt-4">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-steel">Detaylı puanlar</p>
@@ -61,7 +61,7 @@ export default function ReviewItem({ review, metricSchema, isOwner }: { review: 
               {metricSchema.map((m) => (
                 <div key={m.key} className="flex items-center justify-between gap-4">
                   <span className="text-sm text-ink">{m.label}</span>
-                  <div className="flex gap-1">{[1, 2, 3, 4, 5].map((n) => (<button type="button" key={n} onClick={() => setMetricScores((s) => ({ ...s, [m.key]: n }))} className={`h-7 w-7 rounded-full text-xs font-medium transition-colors ${metricScores[m.key] === n ? "bg-ink text-white" : "bg-[#F4F4F5] text-steel"}`}>{n}</button>))}</div>
+                  <div className="flex gap-1">{[1, 2, 3, 4, 5].map((n) => (<button type="button" key={n} onClick={() => setMetricScores((s) => ({ ...s, [m.key]: n }))} className={`h-7 w-7 rounded-full text-xs font-medium transition-colors ${metricScores[m.key] === n ? "bg-ink text-white" : "bg-[#F5F3FF] text-steel"}`}>{n}</button>))}</div>
                 </div>
               ))}
             </div>
@@ -69,7 +69,7 @@ export default function ReviewItem({ review, metricSchema, isOwner }: { review: 
         )}
         {error && <p className="text-sm text-rust">{error}</p>}
         <div className="flex gap-3">
-          <button type="submit" disabled={loading} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-steel disabled:opacity-50">{loading ? "Kaydediliyor…" : "Değişiklikleri kaydet"}</button>
+          <button type="submit" disabled={loading} className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50">{loading ? "Kaydediliyor…" : "Değişiklikleri kaydet"}</button>
           <button type="button" onClick={() => setEditing(false)} className="px-4 py-2 text-sm text-steel hover:text-ink">Vazgeç</button>
         </div>
       </form>
@@ -77,13 +77,13 @@ export default function ReviewItem({ review, metricSchema, isOwner }: { review: 
   }
 
   return (
-    <article className="rounded-2xl border border-line bg-white p-5 shadow-sm">
+    <article className="rounded-3xl bg-white p-5 card-shadow">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-3"><RatingTag score={review.overallRating} size="sm" /><h3 className="font-semibold text-ink">{review.title}</h3></div>
         {review.verifiedPurchase && <span className="text-xs font-medium text-teal">● Doğrulanmış Alışveriş</span>}
       </div>
       <p className="mt-3 text-sm leading-relaxed text-ink">{review.body}</p>
-      {review.receiptUrl && (<a href={review.receiptUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block"><img src={review.receiptUrl} alt="Fiş / fatura" className="h-20 w-20 rounded-lg border border-line object-cover hover:opacity-80 transition-opacity" /></a>)}
+      {review.receiptUrl && (<a href={review.receiptUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block"><img src={review.receiptUrl} alt="Fiş / fatura" className="h-20 w-20 rounded-xl object-cover shadow-sm hover:opacity-80 transition-opacity" /></a>)}
       {review.metricScores.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-4 border-t border-line pt-4">
           {review.metricScores.map((m) => {

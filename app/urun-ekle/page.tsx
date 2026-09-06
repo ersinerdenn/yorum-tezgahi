@@ -15,7 +15,7 @@ export default async function UrunEklePage() {
         <p className="text-xs font-semibold uppercase tracking-wide text-steelLight">Ürün Ekle</p>
         <h1 className="mt-2 text-2xl font-extrabold text-ink">Önce giriş yapmalısın</h1>
         <p className="mt-4 text-sm text-steel">Tezgaha yeni bir ürün koymak için önce e-postanla giriş yapman gerekiyor.</p>
-        <Link href="/giris" className="mt-6 inline-block rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-steel transition-colors focus-ring">Giriş yap</Link>
+        <Link href="/giris" className="mt-6 inline-block rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition-opacity focus-ring">Giriş yap</Link>
       </main>
     );
   }
